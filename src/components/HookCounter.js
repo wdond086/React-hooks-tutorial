@@ -16,3 +16,10 @@ function HookCounter() {
 }
 
 export default HookCounter
+
+/**
+ * Rules of hooks
+ * 
+ * 1.) Only call hooks at the top level. Do not call hooks inside loops, conditions or nested functions
+ * 2.) Only call hooks from React functions. Call them from React functional components and not just any regular JS function
+ */
