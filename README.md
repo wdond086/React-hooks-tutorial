@@ -61,3 +61,14 @@ const updateFirstName = (newFirstName) => {
 ```
 
 ## 2.) useEffect
+
+- Lets you perform side effects in functional components.
+- It replaces _**componentDidMount**_, _**componentDidUpdate**_ and _**componentWillUnmount**_.
+- It gets executed after every render of the component.
+- To use it, you simple call it and pass a callback as shown in the example below (You can also refer to _**UseEffectOne.js**_).
+
+```js
+useEffect(() => {
+    document.title = `You clicked ${count} times`;
+})
+```

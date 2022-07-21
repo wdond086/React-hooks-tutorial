@@ -34,10 +34,3 @@ function HookCounterFour() {
 export default HookCounterFour
 
 
-/**
- * The useState hook lets you add state to functional components
- * In classes, the state is always an object
- * With the useState hook, the state doesn't have to be an object
- * The useState hook returns an array with 2 elements
- * The first element is the current value of the state, and the second element is a state setter function
- */
