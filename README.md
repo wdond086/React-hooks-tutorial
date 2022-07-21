@@ -164,3 +164,9 @@
       };
   }, []);
   ```
+
+  - You can have multiple useEffect calls for different effects.  
+
+  ![alt Image showing how to use multiple useEffects](./public/multiple_useEffects.png)
+
+### useEffect To Fetch Data From An API Endpoint
