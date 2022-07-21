@@ -123,3 +123,44 @@
       };
   }, [])
   ```
+
+### useEffect With Incorrect Dependency Array
+
+- You need to be careful when specifying an empty dependency list. If there is any state whose value changes we want to render, make sure to add them to the dependency list of useEffect. Reffering to the code below, if we remove _**count**_ from the dependency list, it stops working because we effectively told useEffect to no track changes to count, so those changes will not be effected.
+
+  ```js
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+
+      const tick = () => {
+          setCount(count + 1);
+      }
+    
+      const interval = setInterval(tick, 1000);
+
+      return () => {
+          clearInterval(interval);
+      };
+  }, [count]);
+  ```
+
+- Keep in mind that there are other ways to make useEffect keep track of a state variable even when it is not included in the dependency array. One of those ways is by using the useState effect in the form that tracks the previous value of the state. That will in effect force useEffect to keep track of changes to the state count.
+- It also recommended to specify functions that are going to be called by useEffect within useEffect. By so doing, it decreases the likelyhood of not adding a necessary state or prop to the dependency array.
+
+  ```js
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+
+      const tick = () => {
+          setCount(prevCount => prevCount + 1);
+      }
+      
+      const interval = setInterval(tick, 1000);
+
+      return () => {
+          clearInterval(interval);
+      };
+  }, []);
+  ```
