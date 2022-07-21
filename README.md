@@ -170,3 +170,5 @@
   ![alt Image showing how to use multiple useEffects](./public/multiple_useEffects.png)
 
 ### useEffect To Fetch Data From An API Endpoint
+
+- Refer to _**DataFetching.js**_
