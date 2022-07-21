@@ -72,3 +72,17 @@ useEffect(() => {
     document.title = `You clicked ${count} times`;
 })
 ```
+
+- Running the effect after every render may cause some performance issues. To avoid this, you can compare the current value to the new value and perform the update only when they are different. To do this, you pass a second parameter to useEffect which is an array. That array is going to contain the states you want useEffect to track. Hence, the useEffect callback will be executed only when a state variable specified in the array has changed. This is demonstrated below
+
+### Conditionally run effects example
+
+```js
+const [count, setCount] = useState(0);
+const [name, setName] = useState("");
+
+useEffect(() => {
+    console.log("useEffect - Updating document title");
+    document.title = `You clicked ${count} times`;
+}, [count]);
+```
