@@ -91,7 +91,7 @@
 
 ### Run useEffect only once
 
-- Sometimes, we want the effect to be called only once, on initial render. This can be achieved by passing an empty array as the second paramenter to the useEffect as shown below.
+- Sometimes, we want the effect to be called only once, on initial render. This can be achieved by passing an empty array as the second paramenter to the useEffect as shown below (Refer to _**HookMouse.js**_).
 
   ```js
   const [x, setX] = useState(0);
@@ -105,5 +105,21 @@
   useEffect(() => {
       console.log("useEffect called");
       window.addEventListener("mousemove", logMousePosition);
+  }, [])
+  ```
+
+### Run useEffect with cleanup
+
+- To avoid memory leaks, we need to perform cleanup code especially when dealing with event listeners. Every added event listener needs to be removed when the component is unmounted from the DOM. This can be performed by returning the cleanup code in the form of a callback function. (Refer to _**HookMouse.js**_). This is demonstrated below:
+
+  ```js
+  useEffect(() => {
+      console.log("useEffect called");
+      window.addEventListener("mousemove", logMousePosition);
+
+      return () => {
+          console.log("useEffect cleanup called");
+          window.removeEventListener("mousemove", logMousePosition);
+      };
   }, [])
   ```
