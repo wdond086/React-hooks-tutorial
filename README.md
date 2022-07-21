@@ -73,7 +73,7 @@ useEffect(() => {
 })
 ```
 
-- Running the effect after every render may cause some performance issues. To avoid this, you can compare the current value to the new value and perform the update only when they are different. To do this, you pass a second parameter to useEffect which is an array. That array is going to contain the states you want useEffect to track. Hence, the useEffect callback will be executed only when a state variable specified in the array has changed. This is demonstrated below
+- Running the effect after every render may cause some performance issues. To avoid this, you can compare the current value to the new value and perform the update only when they are different. To do this, you pass a second parameter to useEffect which is an array. That array is going to contain the states or props you want useEffect to depend on. Hence, the useEffect callback will be executed only when a state variable or prop specified in the array has changed. This is demonstrated below
 
 ### Conditionally run effects example
 
@@ -86,3 +86,23 @@ useEffect(() => {
     document.title = `You clicked ${count} times`;
 }, [count]);
 ```
+
+- Sometimes, we want the effect to be called only once, on initial render. This can be achieved by passing an empty array as the second paramenter to the useEffect as shown below.
+
+### Run useEffect only once
+
+```js
+const [x, setX] = useState(0);
+const [y, setY] = useState(0);
+
+const logMousePosition = (mouseEvent) => {
+    setX(mouseEvent.clientX);
+    setY(mouseEvent.clientY);
+}
+
+useEffect(() => {
+    console.log("useEffect called");
+    window.addEventListener("mousemove", logMousePosition);
+}, [])
+```
+

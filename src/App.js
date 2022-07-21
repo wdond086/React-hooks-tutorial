@@ -1,7 +1,9 @@
 import React from 'react';
 import './App.css';
+// import ClassMouse from './components/ClassMouse';
+import HookMouse from './components/HookMouse';
 // import ClassCounterOne from './components/ClassCounterOne';
-import UseEffectOne from './components/UseEffectOne';
+// import UseEffectOne from './components/UseEffectOne';
 // import HookCounterFour from './components/HookCounterFour';
 // import HookCounterThree from './components/HookCounterThree';
 
@@ -14,7 +16,9 @@ function App() {
       { /*<HookCounterThree></HookCounterThree> */ }
       { /*<HookCounterFour /> */ }
       { /*<ClassCounterOne /> */ }
-      <UseEffectOne />
+      { /* <UseEffectOne /> */ }
+      { /* <ClassMouse /> */ }
+      <HookMouse />
     </div>
   );
 }
