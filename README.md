@@ -171,4 +171,60 @@
 
 ### useEffect To Fetch Data From An API Endpoint
 
-- Refer to _**DataFetching.js**_
+- For an example, refer to _**DataFetching.js**_
+
+## 3.) useContext
+
+- Use context is used when a property created in a parent component has to be passed to the child component of one of its child components. In such a situation, using useContext allows the tranfer of the property to the child property that needs it directly, without transferring it to the intermediary components which do not neccesarily need it.
+- In other words, it provides a way to pass data through the component tree, without having to pass props down manually at every level.
+- The first step is to create the context.
+
+  ```js
+  export const UserContext = React.createContext();
+  ```
+
+- Then, provide the context with a value, and the provider must wrap the childrn components with the value to be provided.
+
+  ```jsx
+  <UserContext.Provider value={'TestUsername'}>
+      <ComponentC></ComponentC>
+  </UserContext.Provider>
+  ```
+
+- Now we can consume the context value in a child component, using the renderProps pattern.
+
+  ```jsx
+  <UserContext.Consumer>
+      { username => <div>User context value <b>{username}</b></div> }
+  </UserContext.Consumer>
+  ```
+
+  This works for a single context, but what about multiple contexts? We will need to have a lot of nesting which complicates the code. There is a better way.
+
+### Consuming multiple contexts using useContext
+
+- Create the context providers, provide the values and wrap the child component in them.
+
+```jsx
+<UserContext.Provider value={'TestUsername'}>
+    <ChannelContext.Provider value={'CodeEvolution'}>
+        <ComponentC></ComponentC>
+    </ChannelContext.Provider>
+</UserContext.Provider>
+```
+
+- Import useContext from React
+- Import the context providers into the child component where they will be consumed.
+- Call the useContext hook passing on the provider context as the argument.
+
+  ```js
+  const user = useContext(UserContext);
+  const channel = useContext(ChannelContext);
+  ```
+
+- Now, the data from _**UserContext**_ and _**ChannelContext**_ can be used anywhere in the consuming component, using the variables _**user**_ and _**channel**_.
+
+## 4.) useReducer
+
+- useReducer is used for state management.
+- It is an alternative to useState.

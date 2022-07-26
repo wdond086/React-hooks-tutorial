@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import DataFetching from './components/DataFetching';
+import ComponentC from './components/ComponentC';
+// import DataFetching from './components/DataFetching';
 // import IntervalClassCounter from './components/IntervalClassCounter';
 // import IntervalHookCounter from './components/IntervalHookCounter';
 // import ClassMouse from './components/ClassMouse';
@@ -10,6 +11,9 @@ import DataFetching from './components/DataFetching';
 // import UseEffectOne from './components/UseEffectOne';
 // import HookCounterFour from './components/HookCounterFour';
 // import HookCounterThree from './components/HookCounterThree';
+
+export const UserContext = React.createContext();
+export const ChannelContext = React.createContext();
 
 function App() {
   return (
@@ -26,7 +30,12 @@ function App() {
       { /*<MouseContainer /> */ }
       { /*<IntervalClassCounter /> */ }
       { /*<IntervalHookCounter /> */ }
-      <DataFetching></DataFetching>
+      { /*<DataFetching></DataFetching> */ }
+      <UserContext.Provider value={'TestUsername'}>
+        <ChannelContext.Provider value={'CodeEvolution'}>
+          <ComponentC></ComponentC>
+        </ChannelContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 }
