@@ -222,9 +222,250 @@
   const channel = useContext(ChannelContext);
   ```
 
-- Now, the data from _**UserContext**_ and _**ChannelContext**_ can be used anywhere in the consuming component, using the variables _**user**_ and _**channel**_.
+- Now, the data from _**UserContext**_ and _**ChannelContext**_ can be used anywhere in the consuming component, using the variables _**user**_ and _**channel**_. (Refer to _**App.js**_ and _**ComponentE.js**_)
 
 ## 4.) useReducer
 
 - useReducer is used for state management.
 - It is an alternative to useState.
+- useState is built using useReducer, hence, useReducer is more primitive.
+- useReducer is very similar to [_**Array.reduce**_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce) function in Javascript.
+- useReducer takes 2 parameters: the _**reducer**_ which is a function and the _**initialState**_.
+- The reducer function in its simplest form takes two parameters, the _**currentState**_ and an _**action**_ and returns a new state depending on the provided action.
+- The action parameter dictates the transition from the currentState to the new state.
+- useReducer retuns the _**newState**_ and a _**dispatch**_ which is a method used to specify the action.
+- The _**dispatch**_ is used to dispatch an _**action**_ in the _**reducer**_.
+
+  ### useReducer with simple state and simple action (Refer to [_**CounterOne.js**_](./src/components/CounterOne.js))
+
+  ```js
+  import React, { useReducer } from 'react'
+
+  const initialState = 0;
+
+  const reducer = (state, action) => {
+      switch(action) {
+          case 'increment':
+              return state + 1;
+          case 'decrement':
+              return state - 1;
+          case 'reset':
+              return initialState;
+          default:
+              return state;
+    }
+  }
+
+  function CounterOne() {
+    
+      const [count, dispatch] = useReducer(reducer, initialState);
+
+      return (
+        <div>
+            <div>Count: {count}</div>
+            <button onClick={() => dispatch('increment')}>Increment</button>
+            <button onClick={() => dispatch('decrement')}>Decrement</button>
+            <button onClick={() => dispatch('reset')}>Reset</button>
+        </div>
+      )
+  }
+
+  export default CounterOne
+  ```
+
+- Though this is more useful, the more common pattern is to have a state object which gives us maximum flexibility. (Refer to [_**CounterTwo.js**_](./src/components/CounterTwo.js))
+
+  ### useReducer with state object
+
+  ```js
+  const initialState = {
+      firstCounter: 0,
+      secondCounter: 10
+  };
+
+  const reducer = (state, action) => {
+    switch(action.type) {
+      case 'increment':
+        return { ...state, firstCounter: state.firstCounter + action.value};
+      case 'decrement':
+        return { ...state, firstCounter: state.firstCounter - action.value};
+      case 'increment2': 
+        return { ...state, secondCounter: state.secondCounter + action.value};
+      case 'decrement2':
+        return { ...state, secondCounter: state.secondCounter - action.value};
+      case 'reset':
+        return initialState;
+      default:
+        return state;
+    }
+  }
+
+  function CounterTwo() {
+
+    const [count, dispatch] = useReducer(reducer, initialState);
+
+    return (
+      <div>
+        <div>Counter One: {count.firstCounter}</div>
+        <div>Counter Two: {count.secondCounter}</div>
+        <button onClick={() => dispatch({type: 'increment', value: 1})}>Increment</button>
+        <button onClick={() => dispatch({type: 'increment2', value: 1})}>Increment Counter 2</button>
+        <button onClick={() => dispatch({type: 'decrement', value: 1})}>Decrement</button>
+        <button onClick={() => dispatch({type: 'decrement2', value: 1})}>Decrement Counter 2</button>
+        <button onClick={() => dispatch({type: 'increment', value: 5})}>Increment 5</button>
+        <button onClick={() => dispatch({type: 'decrement', value: 5})}>Decrement 5</button>
+        <button onClick={() => dispatch({type: 'reset'})}>Reset</button>
+      </div>
+    )
+  }
+  ```
+
+- We can also use multiple reducers to achieve the same thing effect as above. Using multiple state reducers is actually the recommended way of making changes to multiple states having the same state transitions. This is because it reduces the amount of code and the complexity of the reducer function. (Refer to [_**CounterThree.js**_](./src/components/CounterThree.js))
+
+  ### Multiple useReducer for updating multiple states
+
+  ```js
+  const initialState = 0;
+
+  const reducer = (state, action) => {
+    switch(action) {
+      case 'increment':
+        return state + 1;
+      case 'decrement':
+        return state - 1;
+      case 'reset':
+        return initialState;
+      default:
+        return state;
+    }
+  }
+
+  function CounterThree() {
+
+    const [count, dispatch] = useReducer(reducer, initialState);
+    const [countTwo, dispatchTwo] = useReducer(reducer, initialState);
+
+    return (
+      <div>
+        <div>Counter One: {count}</div>
+        <button onClick={() => dispatch('increment')}>Increment</button>
+        <button onClick={() => dispatch('decrement')}>Decrement</button>
+        <button onClick={() => dispatch('reset')}>Reset</button>
+        <div>Counter Two: {countTwo}</div>
+        <button onClick={() => dispatchTwo('increment')}>Increment Counter 2</button>
+        <button onClick={() => dispatchTwo('decrement')}>Decrement Counter 2</button>
+        <button onClick={() => dispatchTwo('reset')}>Reset Counter 2</button>
+      </div>
+    )
+  }
+  ```
+
+- So far we have been dealing with local states. We way also want to share global state between components. This can be achieved by combining the _**useReducer**_ with _**useContext**_. (Refer to [_**App.js**_](./src/App.js), [_**UseReducerA.js**_](./src/components/UseReducerA.js), [_**UseReducerD.js**_](./src/components/UseReducerD.js), [_**UseReducerF.js**_](./src/components/UseReducerF.js))
+
+  ### Using context API in App.js to provide the count state and dispatch to children components
+
+  ```js
+  export const CountContext = React.createContext();
+
+  const initialState = 0;
+
+  const reducer = (state, action) => {
+    switch(action) {
+      case 'increment':
+        return state + 1;
+      case 'decrement':
+        return state - 1;
+      case 'reset':
+        return initialState;
+      default:
+        return state;
+    }
+  }
+
+  function App() {
+
+    const [count, dispatch] = useReducer(reducer, initialState);
+
+    return (
+      <div className="App">
+        <CountContext.Provider value={{countState: count, countDispatch: dispatch}}>
+          <UseReducerA></UseReducerA>
+          <UseReducerB></UseReducerB>
+          <UseReducerC></UseReducerC>
+        </CountContext.Provider>
+      </div>
+    );
+  }
+  ```
+
+  ### Consuming the global state and dispatch from parent component in child component
+
+  ```js
+  function UseReducerA() {
+
+    const countContext = useContext(CountContext);
+
+    return (
+      <div>
+        <div>Counter from A: {countContext.countState}</div>
+        <button onClick={() => countContext.countDispatch('increment')}>Increment</button>
+        <button onClick={() => countContext.countDispatch('decrement')}>Decrement</button>
+        <button onClick={() => countContext.countDispatch('reset')}>Reset</button>
+      </div>
+    )
+  }
+  ```
+
+- Below is an example of Date fetching with the useReducer hook. ([_**DataFetchingTwo.js**_](./src/components/DataFetchingTwo.js))
+
+  ```js
+  const initialState = {
+    loading: true,
+    error: '',
+    post: {}
+  }
+
+  const reducer = (state, action) => {
+    switch(action.type) {
+      case 'FETCH_SUCCESS':
+        return { ...state, loading: false, error: '', post: action.payload}
+      case 'FETCH_ERROR':
+        return { ...state, loading: false, error: 'Something went wrong!', post: {}}
+      default:
+        return state;
+    }
+  }
+
+  function DataFetchingTwo() {
+
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    useEffect(() => {
+      axios
+        .get('https://jsonplaceholder.typicod.com/posts/1')
+        .then(response => {
+          dispatch({type: 'FETCH_SUCCESS', payload: response.data});
+        })
+        .catch(error => {
+          dispatch({type: 'FETCH_ERROR', payload: error})
+        });
+    }, []);
+
+    return (
+      <div>
+        { state.loading ? 'Loading' : state.post.title}
+        { state.error ? state.error : null}
+      </div>
+    )
+  }
+  ```
+
+### useReducer vs useState
+
+Scenario | useState | useReducer  
+--- | --- | ---  
+**Type of State** | Number, String, Boolean | Object or Array
+**Number of state transitions** | One or two | Three or more
+**Related State Transitions** | No | Yes
+**Business Logic** | No business logic | Complex business logic
+**Local vs Global states** | Local | Global
