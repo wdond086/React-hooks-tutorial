@@ -205,13 +205,13 @@
 
 - Create the context providers, provide the values and wrap the child component in them.
 
-```jsx
-<UserContext.Provider value={'TestUsername'}>
-    <ChannelContext.Provider value={'CodeEvolution'}>
-        <ComponentC></ComponentC>
-    </ChannelContext.Provider>
-</UserContext.Provider>
-```
+  ```jsx
+  <UserContext.Provider value={'TestUsername'}>
+      <ChannelContext.Provider value={'CodeEvolution'}>
+          <ComponentC></ComponentC>
+      </ChannelContext.Provider>
+  </UserContext.Provider>
+  ```
 
 - Import useContext from React
 - Import the context providers into the child component where they will be consumed.
