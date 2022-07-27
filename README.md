@@ -573,3 +573,55 @@ Scenario | useState | useReducer
   ```
 
 - The first parameter is the implementation of the function, and the second is the dependency list. Now, the function isEven will only be run when the state **counterone** changes. Otherwise, the memoized result will be returned. Note here that isEven is no longer a function but the value returned by the function passed as the first parameter of the useMemo hook.
+
+## 7.) useRef
+
+- This hook makes it possible to access DOM nodes directly within functional components and to store an immutable value.
+- In the example [_**FocusInput.js**_](./src/components/FocusInput.js), the useRef hook is used to focus on a text input on page load.
+
+  ```js
+  function FocusInput() {
+
+    const inputRef = useRef(null);
+
+    useEffect(() => {
+      // focus the input element
+      inputRef.current.focus();
+    }, []);
+
+    return (
+      <div>
+        <input type='text' ref={inputRef}></input>
+      </div>
+    )
+  }
+  ```
+
+- in the example below, [_**HookCounter.js](./src/components/HookCounter.js), the useRef is used to store the reference to an interval which is an immutable object. Note that the values stored in useRef persist through component re-renders.
+
+  ```js
+  const initialState = 0;
+
+  function HookTimer() {
+
+    const [timer, setTimer] = useState(initialState);
+    const intervalRef = useRef();
+
+    useEffect(() => {
+      intervalRef.current = setInterval(() => {
+        setTimer(prevTimer => prevTimer + 1);
+      }, 1000);
+
+      return () => {
+        clearInterval(intervalRef.current);
+      }
+    }, [])
+
+    return (
+      <div>
+        <div>Hook Timer - {timer}</div>
+        <button onClick={() => {clearInterval(intervalRef.current)}}>Clear</button>
+      </div>
+    )
+  }
+  ```

@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
-import NewCounter from './components/NewCounter';
+// import FocusInput from './components/FocusInput';
+import HookTimer from './components/HookTimer';
+// import NewCounter from './components/NewCounter';
 // import ParentComponent from './components/ParentComponent';
 // import CounterThree from './components/CounterThree';
 // import UseReducerA from './components/UseReducerA';
@@ -79,7 +81,9 @@ function App() {
         <UseReducerC></UseReducerC>
 </CountContext.Provider> */ }
       { /*<ParentComponent></ParentComponent> */ }
-      <NewCounter></NewCounter>
+      { /* <NewCounter></NewCounter> */ }
+      { /*<FocusInput></FocusInput> */ }
+      <HookTimer></HookTimer>
     </div>
   );
 }
