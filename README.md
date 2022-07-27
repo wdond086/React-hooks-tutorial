@@ -492,3 +492,84 @@ Scenario | useState | useReducer
   ```
 
 - In the example above, **incrementAge** can be passed as a prop to an optimized child component. (Refer to [_**ParentComponent.js**_](./src/components/ParentComponent.js), [_**Count.js**_](./src/components/Count.js), [_**Button.js**_](./src/components/Button.js))
+
+- INTERESTING READ: [**Why it is a bad idea to use _useCallback_ all the time**](https://kentcdodds.com/blog/usememo-and-usecallback)
+
+## 6.) useMemo
+
+- Just like useCallback, it is used for performance optimization by preventing useless re-renders.
+- Refer to the example [_**NewCounter.js**_](./src/components/NewCounter.js). 
+
+  ```js
+  function NewCounter() {
+
+    const [counterOne, setCounterOne] = useState(0);
+    const [counterTwo, setCounterTwo] = useState(0);
+
+    const incrementOne = () => {
+      setCounterOne(counterOne + 1);
+    }
+
+    const incrementTwo = () => {
+      setCounterTwo(counterTwo + 1);
+    }
+
+    const isEven = () => {
+      let i = 0;
+      while (i < 2000000000) i++;
+      return counterOne % 2 === 0;
+    }
+
+    return (
+      <div>
+        <div>
+          <button onClick={incrementOne}>Count one - {counterOne}</button>
+          <span>{isEven() ? 'Even' : 'Odd'}</span>
+        </div>
+        <div>
+          <button onClick={incrementTwo}>Count two - {counterTwo}</button>
+        </div>
+      </div>
+    )
+  }
+  ```
+
+- Here we have two states which are rendered in the returned jsx. We also have a function to determine if the first state is odd or even and we add the while to simulate a long-running function.
+- Without useMemo, even though the isEven function affects only the first counter, the same delay will be applied to the second counter as well because since the state changes, the component is re-rendered, thereby running the isEven function again even though it does not need to be.
+- Using the useMemo hook, we can prevent this from happening to optimize performance.
+
+  ```js
+  function NewCounter() {
+
+    const [counterOne, setCounterOne] = useState(0);
+    const [counterTwo, setCounterTwo] = useState(0);
+
+    const incrementOne = () => {
+      setCounterOne(counterOne + 1);
+    }
+
+    const incrementTwo = () => {
+      setCounterTwo(counterTwo + 1);
+    }
+    
+    const isEven = useMemo(() => {
+      let i = 0;
+      while (i < 2000000000) i++;
+      return counterOne % 2 === 0;
+    }, [counterOne]);
+
+    return (
+      <div>
+        <div>
+          <button onClick={incrementOne}>Count one - {counterOne}</button>
+          <span>{isEven ? 'Even' : 'Odd'}</span>
+        </div>
+        <div>
+          <button onClick={incrementTwo}>Count two - {counterTwo}</button>
+        </div>
+      </div>
+    )
+  }
+  ```
+
+- The first parameter is the implementation of the function, and the second is the dependency list. Now, the function isEven will only be run when the state **counterone** changes. Otherwise, the memoized result will be returned. Note here that isEven is no longer a function but the value returned by the function passed as the first parameter of the useMemo hook.

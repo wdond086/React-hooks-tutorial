@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
-import ParentComponent from './components/ParentComponent';
+import NewCounter from './components/NewCounter';
+// import ParentComponent from './components/ParentComponent';
 // import CounterThree from './components/CounterThree';
 // import UseReducerA from './components/UseReducerA';
 // import UseReducerB from './components/UseReducerB';
@@ -77,7 +78,8 @@ function App() {
         <UseReducerB></UseReducerB>
         <UseReducerC></UseReducerC>
 </CountContext.Provider> */ }
-      <ParentComponent></ParentComponent>
+      { /*<ParentComponent></ParentComponent> */ }
+      <NewCounter></NewCounter>
     </div>
   );
 }
