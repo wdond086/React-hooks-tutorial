@@ -491,4 +491,4 @@ Scenario | useState | useReducer
   }, [age]);
   ```
 
-- In the example above, **incrementAge** can be passed as a prop to an optimized child component.
+- In the example above, **incrementAge** can be passed as a prop to an optimized child component. (Refer to [_**ParentComponent.js**_](./src/components/ParentComponent.js), [_**Count.js**_](./src/components/Count.js), [_**Button.js**_](./src/components/Button.js))
