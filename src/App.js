@@ -1,10 +1,10 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import './App.css';
-import DataFetchingTwo from './components/DataFetchingTwo';
+import ParentComponent from './components/ParentComponent';
 // import CounterThree from './components/CounterThree';
-import UseReducerA from './components/UseReducerA';
-import UseReducerB from './components/UseReducerB';
-import UseReducerC from './components/UseReducerC';
+// import UseReducerA from './components/UseReducerA';
+// import UseReducerB from './components/UseReducerB';
+// import UseReducerC from './components/UseReducerC';
 // import CounterOne from './components/CounterOne';
 // import CounterTwo from './components/CounterTwo';
 // import ComponentC from './components/ComponentC';
@@ -25,8 +25,9 @@ export const ChannelContext = React.createContext();
 
 export const CountContext = React.createContext();
 
-const initialState = 0;
+// const initialState = 0;
 
+/*
 const reducer = (state, action) => {
   switch(action) {
     case 'increment':
@@ -39,6 +40,7 @@ const reducer = (state, action) => {
       return state;
   }
 }
+*/
 
 function App() {
 
@@ -68,13 +70,14 @@ function App() {
       { /* <CounterTwo></CounterTwo> */ }
       { /*<CounterThree></CounterThree> */ }
 
-      { /* SECTION FOR useReducer with useContext 
+      { /* SECTION FOR useReducer with useContext */} 
+      { /*
       <CountContext.Provider value={{countState: count, countDispatch: dispatch}}>
         <UseReducerA></UseReducerA>
         <UseReducerB></UseReducerB>
         <UseReducerC></UseReducerC>
 </CountContext.Provider> */ }
-      <DataFetchingTwo></DataFetchingTwo>
+      <ParentComponent></ParentComponent>
     </div>
   );
 }

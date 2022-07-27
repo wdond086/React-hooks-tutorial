@@ -469,3 +469,26 @@ Scenario | useState | useReducer
 **Related State Transitions** | No | Yes
 **Business Logic** | No business logic | Complex business logic
 **Local vs Global states** | Local | Global
+
+## 5.) useCallback
+
+- Helps with performance optimization by stopping unecessary re-renders of childrien components to which callback functions are passed as props.
+- By default in a situation with multiple components sharing a common parent component, with that component passing down props which are callbacks calling the set method of a state, every time the callback is triggered, all the components will be re-rendered. This may be undesirable and in cases where it is, it results in lost performance.
+- To optimize performance, we need to restrict re-rendering only to components that need to re-render.
+- Using React.Memo, we can make this happen and prevent a component from re-rendering if its props or components have not changed.
+- Firstly, wrap every child component export in _**React.memo**_. This fixes it to some extend but not completely because of the callback functions passed as props to children components.
+
+  ```js
+  export default React.memo(Title);
+  ```
+
+- To completely fix it, we use useCallback hook. This hook will return only a memoized version of the callback function that only changes if one of the dependencies has changed. It is useful when passing callbacks to optimized children components that rely on reference equality to prevent unnecessary renders.
+- To use it, call and pass the 2 required parameters: the callback function and the dependency list.
+
+  ```js
+  const incrementAge = useCallback(() => {
+    setAge(age + 1);
+  }, [age]);
+  ```
+
+- In the example above, **incrementAge** can be passed as a prop to an optimized child component.
